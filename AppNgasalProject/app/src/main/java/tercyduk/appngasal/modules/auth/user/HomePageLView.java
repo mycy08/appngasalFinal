@@ -44,10 +44,13 @@ public class HomePageLView extends Activity {
                 ListViewLapangan.setAdapter(new AdapterLapangan(lapanganFutsals,getApplicationContext()));
             }
 
+
+
             @Override
             public void onFailure(Call call, Throwable t) {
 
             }
         });
+
     }
 }

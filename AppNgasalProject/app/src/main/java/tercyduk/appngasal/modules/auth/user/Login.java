@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.*;
+import tercyduk.appngasal.Activity.LapanganRview;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.UserClient;
@@ -75,7 +76,6 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (_isvalid) {
-                    loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
                     try {
                         User user = new User();
                         user.setEmail(etEmail.getText().toString());
@@ -88,12 +88,29 @@ public class Login extends AppCompatActivity {
                                 if (response.isSuccessful()) {
 //                        Toast.makeText(getApplicationContext(),response.body().getToken(), Toast.LENGTH_SHORT).show();
 
+                                    loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
 
-                                    Intent intent = new Intent(Login.this, HomePageLView.class);
+                                    Intent intent = new Intent(Login.this, LapanganRview.class);
                                     token = response.body().getToken().toString();
                                     intent.putExtra("token", token);
 
                                     startActivity(intent);
+
+                                }
+                                else
+                                {
+
+                                    etEmail.setText("");
+                                    etPassword.setText("");
+                                    alertDialogBuilder.setMessage("Email Atau Password Salah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+
                                 }
                             }
 

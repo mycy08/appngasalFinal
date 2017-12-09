@@ -12,16 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".modules.auth.user.Lapangan" />
-        <activity android:name=".modules.auth.user.Register">
+        <activity android:name=".modules.auth.user.Register"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".modules.auth.user.Login"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.auth.user.Login" />
-        <activity android:name=".modules.auth.user.HomePageLView"/>
+        <activity android:name=".modules.auth.user.HomePageLView" />
+        <activity android:name=".Activity.DetailLapangan"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".Activity.LapanganRview"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>

@@ -2,11 +2,14 @@ package tercyduk.appngasal.coresmodel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created User on 12/5/2017.
  */
 
-public class LapanganFutsal {
+public class LapanganFutsal implements Serializable {
     @SerializedName("id")
     private String id;
 
@@ -28,7 +31,7 @@ public class LapanganFutsal {
     @SerializedName("districts")
     private String districts;
 
-
+    public static ArrayList<LapanganFutsal> lapangans = new ArrayList<>();
     public String getId() {
         return id;
     }

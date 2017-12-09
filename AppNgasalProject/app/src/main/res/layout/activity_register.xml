@@ -15,6 +15,7 @@
 
         <LinearLayout
             android:id="@+id/inputCont"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -58,6 +59,7 @@
                         <EditText
                             style="@style/LoginSingup"
                             android:hint="Handphone"
+                            android:inputType="phone"
                             android:id="@+id/phone_number"/>
                     </android.support.design.widget.TextInputLayout>
                     <android.support.design.widget.TextInputLayout
@@ -115,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/inputCont"
-            android:layout_marginBottom="-120dp"
+            android:layout_marginBottom="-180dp"
             app:srcCompat="@mipmap/register" />
 
         <Button
