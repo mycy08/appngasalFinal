@@ -1,5 +1,6 @@
 package tercyduk.appngasal.apihelper;
 
+import retrofit2.http.Header;
 import tercyduk.appngasal.coresmodel.User;
 
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface LoginService {
     @POST("/user")
     Call<Boolean> create(@Body User user);
     @PUT("update")
-    Call<Boolean> update(@Body User user);
+    Call<Boolean> update(@Header("Authorization") User user);
 
     @GET("user/{email}")
     Call<User> find(@Path("email") String email);

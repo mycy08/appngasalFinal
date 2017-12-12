@@ -15,7 +15,10 @@ import java.util.List;
 
 import tercyduk.appngasal.Activity.DetailLapangan;
 import tercyduk.appngasal.R;
+import tercyduk.appngasal.apihelper.APIClient;
+import tercyduk.appngasal.apihelper.LapanganFutsalService;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
+import tercyduk.appngasal.coresmodel.User;
 
 /**
  * Created by User on 12/9/2017.
@@ -30,16 +33,17 @@ public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapan
 
     @Override
     public AdapterRViewLapangan.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_user_grid, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_futsal_grid, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(AdapterRViewLapangan.ViewHolder holder, int i) {
         final LapanganFutsal _lapang = this.lapang.get(i);
-        holder.email.setText(String.valueOf(lapang.get(i).getPrice()));
-        holder.name.setText(lapang.get(i).getFutsal_name());
-
+        holder.lapangName.setText(lapang.get(i).getFutsal_name());
+        holder.lapangKecamatan.setText(lapang.get(i).getDistricts());
+        holder.lapangPrice.setText(String.valueOf(lapang.get(i).getPrice()));
+        ///TAROK DLU GAMBAR NYA DI API TERUS TEST PANGGIL NYA GIMANA
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,13 +60,14 @@ public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapan
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView image;
-        private TextView name, email;
+        private ImageView image;//TAMBAH DI SINI INISIALISAI IMAGEVIEW
+        private TextView lapangName,lapangKecamatan,lapangPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.item_user_grid_name);
-            email = (TextView) itemView.findViewById(R.id.item_user_grid_email);
+            lapangName = (TextView) itemView.findViewById(R.id.lapang_name);
+            lapangKecamatan = (TextView) itemView.findViewById(R.id.lapang_kecamatan);
+            lapangPrice = (TextView) itemView.findViewById(R.id.lapang_price);
         }
     }
 

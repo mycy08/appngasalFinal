@@ -90,7 +90,7 @@ public class Register extends AppCompatActivity {
                     _isvalid = false;
                     tilhp.setErrorEnabled(true);
                     tilhp.setError("Handphone is required");
-                } else if (etNohp.getText().length() < 12 && etNohp.getText().length() > 11) {
+                } else if (etNohp.getText().length() <= 12 ) {
                     _isvalid = false;
                     tilhp.setErrorEnabled(true);
                     tilhp.setError("Hanphone minimal 12");
@@ -146,12 +146,28 @@ public class Register extends AppCompatActivity {
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                    alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
                             }
                         });
 

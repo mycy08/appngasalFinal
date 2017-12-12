@@ -1,44 +1,27 @@
 package tercyduk.appngasal.Activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tercyduk.appngasal.MainActivity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
-import tercyduk.appngasal.apihelper.Adapter.AdapterLapangan;
 import tercyduk.appngasal.apihelper.Adapter.AdapterRViewLapangan;
 import tercyduk.appngasal.apihelper.LapanganFutsalService;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.modules.auth.user.Login;
-import tercyduk.appngasal.modules.auth.user.ParentActivity;
-
-import static java.security.AccessController.getContext;
 
 public class LapanganRview extends AppCompatActivity  {
     String srch="";
@@ -52,7 +35,21 @@ public class LapanganRview extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lapangan_rview);
+        this.setTitle("Lapangan");
         initViews();
+        init();
+
+    }
+
+    private void initViews(){
+        rv = (RecyclerView)findViewById(R.id.lapang_rv);
+        rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        rv.setLayoutManager(layoutManager);
+
+    }
+    private void init(){
+
         Intent inten = getIntent();
         String token = inten.getStringExtra("token");
         Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
@@ -77,26 +74,26 @@ public class LapanganRview extends AppCompatActivity  {
                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         });
-        context=getApplicationContext();
-
+        context = getApplicationContext();
     }
-
-    private void initViews(){
-        rv = (RecyclerView)findViewById(R.id.lapang_rv);
-        rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        rv.setLayoutManager(layoutManager);
-
+    public void startTwo(View v){
+        startActivity((new Intent(this, EditProfile.class)));
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.home)
         {
-            doChangeActivity(getApplicationContext(),LapanganRview.class);
+            Intent intent = new Intent(LapanganRview.this, LapanganRview.class);
+            startActivity(intent);
         }
         else if(id==R.id.editpro){
-
+            doChangeActivity(getApplicationContext(),EditProfile.class);
         }
         else if(id == R.id.topup)
         {

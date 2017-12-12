@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit2.*;
+import tercyduk.appngasal.Activity.EditProfile;
 import tercyduk.appngasal.Activity.LapanganRview;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
@@ -93,7 +94,8 @@ public class Login extends AppCompatActivity {
                                     Intent intent = new Intent(Login.this, LapanganRview.class);
                                     token = response.body().getToken().toString();
                                     intent.putExtra("token", token);
-
+                                    Intent intents = new Intent(Login.this, EditProfile.class);
+                                    intents.putExtra("token",token);
                                     startActivity(intent);
 
                                 }
@@ -117,11 +119,27 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onFailure(retrofit2.Call call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
                             }
                         });
 
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                        alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                     }
                 }
                 if (TextUtils.isEmpty(etEmail.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
