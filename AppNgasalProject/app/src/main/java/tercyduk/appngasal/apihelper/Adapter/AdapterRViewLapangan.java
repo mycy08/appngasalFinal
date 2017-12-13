@@ -19,16 +19,18 @@ import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.LapanganFutsalService;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.coresmodel.User;
-
+import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * Created by User on 12/9/2017.
  */
 
-public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapangan.ViewHolder> {
-    private ArrayList<LapanganFutsal> lapang;
+        public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapangan.ViewHolder> {
+            List<LapanganFutsal> lapang;
+            ImageLoader imageLoader;
 
-    public AdapterRViewLapangan(ArrayList<LapanganFutsal> lapang) {
-        this.lapang = lapang;
+            public AdapterRViewLapangan(List<LapanganFutsal> lapang, ImageLoader imageLoader) {
+                this.lapang = lapang;
+        this.imageLoader=imageLoader;
     }
 
     @Override
@@ -38,17 +40,20 @@ public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapan
     }
 
     @Override
-    public void onBindViewHolder(AdapterRViewLapangan.ViewHolder holder, int i) {
-        final LapanganFutsal _lapang = this.lapang.get(i);
-        holder.lapangName.setText(lapang.get(i).getFutsal_name());
-        holder.lapangKecamatan.setText(lapang.get(i).getDistricts());
-        holder.lapangPrice.setText(String.valueOf(lapang.get(i).getPrice()));
+    public void onBindViewHolder(AdapterRViewLapangan.ViewHolder holder, int position) {
+        final LapanganFutsal _lapang = lapang.get(position);
+        holder.id.setText(_lapang.getId());
+        holder.lapangName.setText(_lapang.getFutsal_name());
+        //holder.lapangKecamatan.setText(_lapang.getDistricts());
+        holder.lapangPrice.setText(String.valueOf(_lapang.getPrice()));
+        String image1 = _lapang.getPhoto_url();
+        imageLoader.displayImage(image1, holder.image);
         ///TAROK DLU GAMBAR NYA DI API TERUS TEST PANGGIL NYA GIMANA
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent _intent = new Intent(v.getContext(), DetailLapangan.class);
-                _intent.putExtra("Lapangan", _lapang);
+                _intent.putExtra("id", _lapang.getId());
                 v.getContext().startActivity(_intent);
             }
         });
@@ -60,14 +65,15 @@ public class AdapterRViewLapangan extends RecyclerView.Adapter<AdapterRViewLapan
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView image;//TAMBAH DI SINI INISIALISAI IMAGEVIEW
-        private TextView lapangName,lapangKecamatan,lapangPrice;
+        public ImageView image;//TAMBAH DI SINI INISIALISAI IMAGEVIEW
+        public TextView lapangName,id,lapangPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             lapangName = (TextView) itemView.findViewById(R.id.lapang_name);
-            lapangKecamatan = (TextView) itemView.findViewById(R.id.lapang_kecamatan);
+            id = (TextView) itemView.findViewById(R.id.id);
             lapangPrice = (TextView) itemView.findViewById(R.id.lapang_price);
+            image =(ImageView) itemView.findViewById(R.id.lapang_photo);
         }
     }
 

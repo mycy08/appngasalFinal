@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.modules.auth.user.Login;
@@ -16,6 +17,9 @@ public class DetailLapangan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_lapangan);
+        Intent _inten = getIntent();
+        String id = _inten.getStringExtra("id");
+        Toast.makeText(getApplicationContext(),id,Toast.LENGTH_SHORT).show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

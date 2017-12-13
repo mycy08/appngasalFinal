@@ -31,6 +31,9 @@ public class LapanganFutsal implements Serializable {
     @SerializedName("districts")
     private String districts;
 
+    @SerializedName("photo_url")
+    private String photo_url;
+
     public static ArrayList<LapanganFutsal> lapangans = new ArrayList<>();
     public String getId() {
         return id;
@@ -86,5 +89,13 @@ public class LapanganFutsal implements Serializable {
 
     public void setDistricts(String districts) {
         this.districts = districts;
+    }
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 }

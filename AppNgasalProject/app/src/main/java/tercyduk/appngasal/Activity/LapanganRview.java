@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -11,7 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,57 +30,69 @@ import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.modules.auth.user.Login;
 
 public class LapanganRview extends AppCompatActivity  {
-    String srch="";
-    ArrayList<String> futsal_name = new ArrayList<String>();
-    ArrayList<String> price = new ArrayList<String>();
-    ArrayList<LapanganFutsal>lapang;
+
+    List<LapanganFutsal> lapang;
     RecyclerView rv;
     private Context context;
-    AdapterRViewLapangan adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lapangan_rview);
-        this.setTitle("Lapangan");
-        initViews();
-        init();
-
-    }
-
-    private void initViews(){
-        rv = (RecyclerView)findViewById(R.id.lapang_rv);
-        rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        rv.setLayoutManager(layoutManager);
-
-    }
-    private void init(){
-
+        rv = (RecyclerView) findViewById(R.id.lapang_rv);
+        ImageLoaderConfiguration config=new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        lapang = new ArrayList<>();
         Intent inten = getIntent();
         String token = inten.getStringExtra("token");
-        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
         LapanganFutsalService lapanganFutsalService = APIClient.getClient().create(LapanganFutsalService.class);
-        retrofit2.Call call = lapanganFutsalService.getSecret("Bearer "+token.toString());
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
 
-                ArrayList<LapanganFutsal> lapanganFutsals =  (ArrayList<LapanganFutsal>) response.body();
-                adapter = new AdapterRViewLapangan(lapanganFutsals);
-                rv.setAdapter(adapter);
-//                adapter.setLapang(lapanganFutsals);
-//                rv.setAdapter(adapter);
+        Call<List<LapanganFutsal>> call=   lapanganFutsalService.getSecret("Bearer "+token);
+        call.enqueue(new Callback<List<LapanganFutsal>>() {
+            @Override
+            public void onResponse(Call<List<LapanganFutsal>> call, Response<List<LapanganFutsal>> response) {
+
+                final List<LapanganFutsal> list = response.body();
+                LapanganFutsal lapanganFutsal = null;
+                for (int i =0 ;i<list.size();i++){
+                    lapanganFutsal = new LapanganFutsal();
+                    final String id = list.get(i).getId();
+                    String name = list.get(i).getFutsal_name();
+
+                    String image = list.get(i).getPhoto_url();
+                    double price = list.get(i).getPrice();
+                    lapanganFutsal.setPrice(price);
+
+                    lapanganFutsal.setFutsal_name(name);
+                    lapanganFutsal.setPhoto_url(image);
+                    lapang.add(lapanganFutsal);
+                }
+
+
+                AdapterRViewLapangan recyclerAdapter = new AdapterRViewLapangan(lapang,ImageLoader.getInstance());
+                rv.setHasFixedSize(true);
+                //RecyclerView.LayoutManager recyce = new GridLayoutManager(LapanganRview.this,2);
+                RecyclerView.LayoutManager recyce = new LinearLayoutManager(LapanganRview.this);
+                //rv.addItemDecoration(new GridSpacingdecoration(2, dpToPx(10), true));
+                rv.setLayoutManager(recyce);
+                //rv.setItemAnimator( new DefaultItemAnimator());
+                rv.setAdapter(recyclerAdapter);
+
+
+
+
+
+
+
+
             }
 
-
-
             @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<LapanganFutsal>> call, Throwable t) {
+
             }
         });
-        context = getApplicationContext();
     }
     public void startTwo(View v){
         startActivity((new Intent(this, EditProfile.class)));
