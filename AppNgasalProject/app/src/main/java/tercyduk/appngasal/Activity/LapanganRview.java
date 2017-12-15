@@ -59,14 +59,18 @@ public class LapanganRview extends AppCompatActivity  {
                     lapanganFutsal = new LapanganFutsal();
                     final String id = list.get(i).getId();
                     String name = list.get(i).getFutsal_name();
+                    String districts = list.get(i).getDistricts();
 
                     String image = list.get(i).getPhoto_url();
                     double price = list.get(i).getPrice();
                     lapanganFutsal.setPrice(price);
-
+                    lapanganFutsal.setDistricts(districts);
+                    lapanganFutsal.setId(id);
                     lapanganFutsal.setFutsal_name(name);
                     lapanganFutsal.setPhoto_url(image);
                     lapang.add(lapanganFutsal);
+
+
                 }
 
 

@@ -17,8 +17,8 @@ public class DetailLapangan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_lapangan);
-        Intent _inten = getIntent();
-        String id = _inten.getStringExtra("id");
+        Intent _intent = getIntent();
+        String id = _intent.getStringExtra("id");
         Toast.makeText(getApplicationContext(),id,Toast.LENGTH_SHORT).show();
     }
     @Override

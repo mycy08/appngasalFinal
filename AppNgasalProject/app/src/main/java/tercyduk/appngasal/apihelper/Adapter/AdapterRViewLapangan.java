@@ -28,10 +28,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
             List<LapanganFutsal> lapang;
             ImageLoader imageLoader;
 
-            public AdapterRViewLapangan(List<LapanganFutsal> lapang, ImageLoader imageLoader) {
+        public AdapterRViewLapangan(List<LapanganFutsal> lapang, ImageLoader imageLoader) {
                 this.lapang = lapang;
-        this.imageLoader=imageLoader;
-    }
+                this.imageLoader=imageLoader;
+         }
 
     @Override
     public AdapterRViewLapangan.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -42,7 +42,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
     @Override
     public void onBindViewHolder(AdapterRViewLapangan.ViewHolder holder, int position) {
         final LapanganFutsal _lapang = lapang.get(position);
-        holder.id.setText(_lapang.getId());
+        final String idf = _lapang.getId();
+        holder.lapangKecamatan.setText(_lapang.getDistricts());
         holder.lapangName.setText(_lapang.getFutsal_name());
         //holder.lapangKecamatan.setText(_lapang.getDistricts());
         holder.lapangPrice.setText(String.valueOf(_lapang.getPrice()));
@@ -53,7 +54,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
             @Override
             public void onClick(View v) {
                 Intent _intent = new Intent(v.getContext(), DetailLapangan.class);
-                _intent.putExtra("id", _lapang.getId());
+                _intent.putExtra("id",idf);
                 v.getContext().startActivity(_intent);
             }
         });
@@ -66,12 +67,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView image;//TAMBAH DI SINI INISIALISAI IMAGEVIEW
-        public TextView lapangName,id,lapangPrice;
+        public TextView lapangName,lapangKecamatan,lapangPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             lapangName = (TextView) itemView.findViewById(R.id.lapang_name);
-            id = (TextView) itemView.findViewById(R.id.id);
+            lapangKecamatan = (TextView) itemView.findViewById(R.id.lapang_kecamatan);
             lapangPrice = (TextView) itemView.findViewById(R.id.lapang_price);
             image =(ImageView) itemView.findViewById(R.id.lapang_photo);
         }

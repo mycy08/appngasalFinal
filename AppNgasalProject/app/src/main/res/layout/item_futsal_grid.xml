@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:gravity="left"
-                        android:id="@+id/id"
+                        android:id="@+id/lapang.kecamatan"
                         android:text="Your Email"/>
                 </LinearLayout>
                 <LinearLayout

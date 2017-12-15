@@ -10,8 +10,9 @@ import java.util.ArrayList;
  */
 
 public class LapanganFutsal implements Serializable {
-    @SerializedName("id")
-    private String id;
+
+    @SerializedName("futsal_id")
+    private Integer futsal_id;
 
     @SerializedName("futsal_name")
     private String futsal_name;
@@ -34,7 +35,10 @@ public class LapanganFutsal implements Serializable {
     @SerializedName("photo_url")
     private String photo_url;
 
-    public static ArrayList<LapanganFutsal> lapangans = new ArrayList<>();
+    @SerializedName("id")
+    private String id;
+
+    //public static ArrayList<LapanganFutsal> lapangans = new ArrayList<>();
     public String getId() {
         return id;
     }
@@ -97,5 +101,14 @@ public class LapanganFutsal implements Serializable {
 
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
+    }
+
+
+    public Integer getFutsal_id() {
+        return futsal_id;
+    }
+
+    public void setFutsal_id(Integer futsal_id) {
+        this.futsal_id = futsal_id;
     }
 }
