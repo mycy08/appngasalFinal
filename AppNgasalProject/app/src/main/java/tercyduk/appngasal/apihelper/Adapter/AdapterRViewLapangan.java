@@ -46,15 +46,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
         holder.lapangKecamatan.setText(_lapang.getDistricts());
         holder.lapangName.setText(_lapang.getFutsal_name());
         //holder.lapangKecamatan.setText(_lapang.getDistricts());
-        holder.lapangPrice.setText(String.valueOf(_lapang.getPrice()));
-        String image1 = _lapang.getPhoto_url();
+        holder.lapangPrice.setText("RP "+(_lapang.getPrice()).intValue());
+
+        final String image1 = _lapang.getPhoto_url();
         imageLoader.displayImage(image1, holder.image);
-        ///TAROK DLU GAMBAR NYA DI API TERUS TEST PANGGIL NYA GIMANA
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent _intent = new Intent(v.getContext(), DetailLapangan.class);
                 _intent.putExtra("id",idf);
+                _intent.putExtra("LapanganFutsal",_lapang);
+                _intent.putExtra("photo_url",image1);
                 v.getContext().startActivity(_intent);
             }
         });

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import retrofit2.*;
 import tercyduk.appngasal.Activity.EditProfile;
-import tercyduk.appngasal.Activity.LapanganRview;
+import tercyduk.appngasal.Main2Activity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.UserClient;
@@ -42,6 +42,9 @@ public class Login extends AppCompatActivity {
         initobject();
     }
     private String token;
+    private String name;
+    private String hp;
+    private String email;
     private void initComponents() {
         etPassword = (EditText) findViewById(R.id.etxtPass);
         etEmail = (EditText) findViewById(R.id.etxtEmail);
@@ -78,22 +81,27 @@ public class Login extends AppCompatActivity {
 
                 if (_isvalid) {
                     try {
-                        User user = new User();
+                        final User user = new User();
                         user.setEmail(etEmail.getText().toString());
                         user.setPassword(etPassword.getText().toString());
                         final UserClient userClient = APIClient.getClient().create(UserClient.class);
                         retrofit2.Call call = userClient.login(user);
+
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(retrofit2.Call<User> call, retrofit2.Response<User> response) {
+
+
+
                                 if (response.isSuccessful()) {
 //                        Toast.makeText(getApplicationContext(),response.body().getToken(), Toast.LENGTH_SHORT).show();
-
                                     loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
 
-                                    Intent intent = new Intent(Login.this, LapanganRview.class);
+                                    Intent intent = new Intent(Login.this, Main2Activity.class);
                                     token = response.body().getToken().toString();
+
                                     intent.putExtra("token", token);
+                                    intent.putExtra("email",email);
                                     Intent intents = new Intent(Login.this, EditProfile.class);
                                     intents.putExtra("token",token);
                                     startActivity(intent);

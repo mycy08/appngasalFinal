@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import tercyduk.appngasal.Main2Activity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.LoginService;
@@ -41,13 +42,15 @@ public class EditProfile extends AppCompatActivity {
     Button btnUpdate;
     Context mContext;
     AlertDialog alertDialog;
-
     AlertDialog.Builder alertDialogBuilder;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initComponents();
 
 
@@ -98,10 +101,10 @@ public class EditProfile extends AppCompatActivity {
                         Intent inten = getIntent();
                         String token = inten.getStringExtra("token");
                         Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
-                        User user = new User();
-                        user.setName(etName.getText().toString());
-                        user.setAddress(etAlamat.getText().toString());
-                        user.setPhone_number(etNohp.getText().toString());
+
+                        etName.setText(user.getName());
+                        etAlamat.setText(user.getAddress());
+                        etNohp.setText(user.getPhone_number());
                         LoginService loginService = APIClient.getClient().create(LoginService.class);
                         Call call = loginService.update(user);
                         call.enqueue(new Callback() {
@@ -110,7 +113,7 @@ public class EditProfile extends AppCompatActivity {
 
                                 Boolean result = (Boolean) response.body();
                                     if (result) {
-                                    Intent intent = new Intent(EditProfile.this, LapanganRview.class);
+                                    Intent intent = new Intent(EditProfile.this, Main2Activity.class);
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -150,35 +153,9 @@ public class EditProfile extends AppCompatActivity {
 
         });
 
-    }@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id==R.id.home)
-        {
-
-            doChangeActivity(getApplicationContext(),LapanganRview.class);
-        }
-        else if(id==R.id.editpro){
-            doChangeActivity(getApplicationContext(),EditProfile.class);
-        }
-        else if(id == R.id.topup)
-        {
-        }
-        else if (id == R.id.report)
-        {
-        }
-        else if(id == R.id.Wallet)
-        {
-        }
-        else if(id== R.id.logout)
-        {
-            doChangeActivity(getApplicationContext(), Login.class);
-        }
+    public boolean onSupportNavigateUp() {
+        finish();
         return true;
     }
     public static void doChangeActivity (Context context, Class destination) {
@@ -186,4 +163,5 @@ public class EditProfile extends AppCompatActivity {
         _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(_intent);
     }
+
 }

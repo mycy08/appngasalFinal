@@ -12,32 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".modules.auth.user.Register"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".modules.auth.user.Login"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Activity.SplashScreen"
+            android:label="AppNgasal"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.DetailLapangan"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Activity.LapanganRview"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Activity.EditProfile"
-            android:parentActivityName=".modules.auth.user.HomePageLView">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".modules.auth.user.HomePageLView"/>
 
-        </activity>
+        <activity
+            android:name=".modules.auth.user.Register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".modules.auth.user.Login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity.DetailLapangan"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".Activity.EditProfile" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

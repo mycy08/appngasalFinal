@@ -12,6 +12,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="LoginSingup">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -34,6 +35,7 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
     <style name="ButtonOrange" parent="@android:style/Widget.Button">
         <item name="android:background">@color/button_orange</item>
     </style>
