@@ -37,6 +37,7 @@ public class Main2Activity extends AppCompatActivity
     RecyclerView rv;
     private Context context;
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class Main2Activity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -117,8 +119,13 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.profile) {
-            Intent intent = new Intent(Main2Activity.this, EditProfile.class);
-            startActivity(intent);
+            Intent intents = getIntent();
+            String email = intents.getStringExtra("email");
+            String tokent = intents.getStringExtra("token");
+            Intent intent1 = new Intent(Main2Activity.this, EditProfile.class);
+            intent1.putExtra("email",email);
+            intent1.putExtra("token",tokent);
+            startActivity(intent1);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -144,6 +151,7 @@ public class Main2Activity extends AppCompatActivity
         lapang = new ArrayList<>();
         Intent inten = getIntent();
         final String token = inten.getStringExtra("token");
+
 
         LapanganFutsalService lapanganFutsalService = APIClient.getClient().create(LapanganFutsalService.class);
 

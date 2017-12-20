@@ -38,8 +38,11 @@ public class User {
 
     @SerializedName("confirmed")
     private String comfirmed;
-    @SerializedName("Address")
-    private String Address;
+
+    @SerializedName("address")
+    private String address;
+
+
 
     public String getId() {
         return id;
@@ -129,11 +132,12 @@ public class User {
         this.token = token;
     }
 
+
     public String getAddress() {
-        return Address;
+        return address;
     }
 
-    public void setAddress(String Adress) {
-        this.token = Address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

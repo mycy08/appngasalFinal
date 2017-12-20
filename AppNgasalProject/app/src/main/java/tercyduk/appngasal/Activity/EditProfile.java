@@ -20,8 +20,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
@@ -31,12 +34,15 @@ import tercyduk.appngasal.Main2Activity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.LoginService;
+import tercyduk.appngasal.apihelper.UserClient;
+import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.coresmodel.User;
 import tercyduk.appngasal.modules.auth.user.Login;
 import tercyduk.appngasal.modules.auth.user.Register;
 
 public class EditProfile extends AppCompatActivity {
     EditText etName, etAlamat, etBirth, etNohp;
+    String id,name,alamat,no_hp;
     TextInputLayout tilName, tilAlamat, tilhp, tilBirth;
     TextView txtLogin;
     Button btnUpdate;
@@ -57,64 +63,95 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void initComponents() {
+        final Intent inten = getIntent();
+        final String token = inten.getStringExtra("token");
+        final String email = inten.getStringExtra("email");
+        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
-        etNohp = (EditText) findViewById(R.id.edp_txt_hp);
-        etAlamat = (EditText) findViewById(R.id.edp_txt_alamat);
-        etName = (EditText) findViewById(R.id.edp_txt_name);
-        etBirth = (EditText) findViewById(R.id.email);
-        tilName = (TextInputLayout) findViewById(R.id.edp_name_container);
-        tilAlamat = (TextInputLayout) findViewById(R.id.edp_alamat_container);
-        tilhp = (TextInputLayout) findViewById(R.id.edp_hp_container);
-        btnUpdate = (Button) findViewById(R.id.btnCreateAccount);
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        UserClient userClient= APIClient.getClient().create(UserClient.class);
+        Call<User> call = userClient.find("Bearer "+token, email);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                if(response.body() != null){
+                    User users= response.body();
+                    id = users.getId();
+                    etNohp = (EditText) findViewById(R.id.edp_txt_hp);
+                    etNohp.setText(users.getPhone_number());
+                    etAlamat = (EditText) findViewById(R.id.edp_txt_alamat);
+                    etAlamat.setText(users.getAddress());
+                    etName = (EditText) findViewById(R.id.edp_txt_name);
+                    etName.setText(users.getName());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+
+       btnUpdate = (Button) findViewById(R.id.btnCreateAccount);
+       btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean _isvalid = true;
-                tilName.setErrorEnabled(false);
-                tilAlamat.setErrorEnabled(false);
-                tilhp.setErrorEnabled(false);
-                tilBirth.setErrorEnabled(false);
-                if (TextUtils.isEmpty(etName.getText())) {
-                    _isvalid = false;
-                    tilName.setErrorEnabled(true);
-                    tilName.setError("Nama harus diisi");
-                } else if (etName.getText().length() < 7) {
-                    _isvalid = false;
-                    tilName.setErrorEnabled(true);
-                    tilName.setError("Nama minimal 7 huruf");
-                } else if (TextUtils.isEmpty((etAlamat.getText()))) {
-                    _isvalid = false;
-                    tilhp.setErrorEnabled(true);
-                    tilhp.setError("Alamat harus diisi");
-                } else if (TextUtils.isEmpty((etNohp.getText()))) {
-                    _isvalid = false;
-                    tilhp.setErrorEnabled(true);
-                    tilhp.setError("Handphone harus diisi");
-                } else if (etNohp.getText().length() <= 12) {
-                    _isvalid = false;
-                    tilhp.setErrorEnabled(true);
-                    tilhp.setError("Handphone minimal 12 huruf");
-                }
+//                tilName.setErrorEnabled(false);
+//                tilAlamat.setErrorEnabled(false);
+//                tilhp.setErrorEnabled(false);
+//                tilBirth.setErrorEnabled(false);
+//                if (TextUtils.isEmpty(etName.getText())) {
+//                    _isvalid = false;
+//                    tilName.setErrorEnabled(true);
+//                    tilName.setError("Nama harus diisi");
+//                } else if (etName.getText().length() < 7) {
+//                    _isvalid = false;
+//                    tilName.setErrorEnabled(true);
+//                    tilName.setError("Nama minimal 7 huruf");
+//                } else if (TextUtils.isEmpty((etAlamat.getText()))) {
+//                    _isvalid = false;
+//                    tilhp.setErrorEnabled(true);
+//                    tilhp.setError("Alamat harus diisi");
+//                } else if (TextUtils.isEmpty((etNohp.getText()))) {
+//                    _isvalid = false;
+//                    tilhp.setErrorEnabled(true);
+//                    tilhp.setError("Handphone harus diisi");
+//                } else if (etNohp.getText().length() <= 12) {
+//                    _isvalid = false;
+//                    tilhp.setErrorEnabled(true);
+//                    tilhp.setError("Handphone minimal 12 huruf");
+//                }
                 if(_isvalid)
                 {
                     try {
-                        Intent inten = getIntent();
-                        String token = inten.getStringExtra("token");
-                        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
-                        etName.setText(user.getName());
-                        etAlamat.setText(user.getAddress());
-                        etNohp.setText(user.getPhone_number());
-                        LoginService loginService = APIClient.getClient().create(LoginService.class);
-                        Call call = loginService.update(user);
+                         name =etName.getText().toString();
+                         alamat= etAlamat.getText().toString();
+                         no_hp = etNohp.getText().toString();
+
+                        UserClient userClient= APIClient.getClient().create(UserClient.class);
+                        Call call = userClient.update("Bearer "+token,id,name,no_hp,alamat);
                         call.enqueue(new Callback() {
                             @Override
                             public void onResponse(Call call, retrofit2.Response response) {
 
                                 Boolean result = (Boolean) response.body();
-                                    if (result) {
-                                    Intent intent = new Intent(EditProfile.this, Main2Activity.class);
+                                if (result) {
+                                    Intent intent = new Intent(EditProfile.this, EditProfile.class);
+                                    inten.putExtra("email",email);
                                     startActivity(intent);
+                                    Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                                     alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -127,18 +164,17 @@ public class EditProfile extends AppCompatActivity {
                                     alertDialog.show();
                                 }
                             }
-
                             @Override
                             public void onFailure(Call call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+//                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+//                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                });
+//                                alertDialog = alertDialogBuilder.create();
+//                                alertDialog.show();
                             }
                         });
 

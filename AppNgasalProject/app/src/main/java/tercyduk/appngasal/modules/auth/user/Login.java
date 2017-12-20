@@ -99,11 +99,8 @@ public class Login extends AppCompatActivity {
 
                                     Intent intent = new Intent(Login.this, Main2Activity.class);
                                     token = response.body().getToken().toString();
-
                                     intent.putExtra("token", token);
-                                    intent.putExtra("email",email);
-                                    Intent intents = new Intent(Login.this, EditProfile.class);
-                                    intents.putExtra("token",token);
+                                    intent.putExtra("email",etEmail.getText().toString());
                                     startActivity(intent);
 
                                 }
