@@ -43,6 +43,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
     public void onBindViewHolder(AdapterRViewLapangan.ViewHolder holder, int position) {
         final LapanganFutsal _lapang = lapang.get(position);
         final String idf = _lapang.getId();
+        final String token =_lapang.getToken();
         holder.lapangKecamatan.setText(_lapang.getDistricts());
         holder.lapangName.setText(_lapang.getFutsal_name());
         //holder.lapangKecamatan.setText(_lapang.getDistricts());
@@ -56,7 +57,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
                 Intent _intent = new Intent(v.getContext(), DetailLapangan.class);
                 _intent.putExtra("id",idf);
                 _intent.putExtra("LapanganFutsal",_lapang);
-                _intent.putExtra("photo_url",image1);
+                _intent.putExtra("token",token);
                 v.getContext().startActivity(_intent);
             }
         });

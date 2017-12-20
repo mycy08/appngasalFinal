@@ -11,10 +11,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tercyduk.appngasal.R;
+import tercyduk.appngasal.apihelper.APIClient;
+import tercyduk.appngasal.apihelper.LapanganFutsalService;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.modules.auth.user.Login;
 
@@ -24,30 +33,50 @@ public class DetailLapangan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _lapang =(LapanganFutsal)getIntent().getExtras().get("LapanganFutsal");
+
         setContentView(R.layout.activity_detail_lapangan);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         Intent _intent = getIntent();
         String id = _intent.getStringExtra("id");
-//        String images = _intent.getStringExtra("photo_url");
-//        String futsalname = _intent.getStringExtra("futsal_name");
-        Toast.makeText(getApplicationContext(),id,Toast.LENGTH_SHORT).show();
+        String token = _intent.getStringExtra("token");
 
-        TextView namalapang =(TextView)findViewById(R.id.detail_lapang_name);
-        namalapang.setText(_lapang.getFutsal_name());
-        TextView alamat = (TextView)findViewById(R.id.detail_lapang_alamat);
-        alamat.setText(_lapang.getAddress());
-        TextView kecamatan = (TextView)findViewById(R.id.detail_lapang_kecamatan);
-        kecamatan.setText(_lapang.getDistricts());
-        TextView deskripsi = (TextView)findViewById(R.id.detail_lapang_deskripsi);
-        deskripsi.setText(_lapang.getDescription());
-        TextView price = (TextView)findViewById(R.id.detail_lapang_price);
-        price.setText("RP " +_lapang.getPrice().intValue());
-//        ImageView image = (ImageView)findViewById(R.id.detail_lapang_photos);
-//        imageLoader.displayImage(images, image);
+
+        LapanganFutsalService lapanganFutsalService = APIClient.getClient().create(LapanganFutsalService.class);
+
+        Call<LapanganFutsal> call=   lapanganFutsalService.find("Bearer "+token,id);
+        call.enqueue(new Callback<LapanganFutsal>() {
+            @Override
+            public void onResponse(Call<LapanganFutsal> call, Response<LapanganFutsal> response) {
+                if(response.body() != null){
+                    LapanganFutsal lapanganFutsal= response.body();
+                    ImageView photo_lapang = (ImageView) findViewById(R.id.detail_lapang_photo);
+                    
+                    Picasso.with(getApplicationContext()).load(lapanganFutsal.getPhoto_url()).into(photo_lapang);
+                    TextView namalapang = (TextView) findViewById(R.id.detail_lapang_name);
+                    namalapang.setText(lapanganFutsal.getFutsal_name());
+                    TextView alamat = (TextView) findViewById(R.id.detail_lapang_alamat);
+                    alamat.setText(lapanganFutsal.getAddress());
+                    TextView kecamatan = (TextView) findViewById(R.id.detail_lapang_kecamatan);
+                    kecamatan.setText(lapanganFutsal.getDistricts());
+                    TextView deskripsi = (TextView) findViewById(R.id.detail_lapang_deskripsi);
+                    deskripsi.setText(lapanganFutsal.getDescription());
+                    TextView price = (TextView) findViewById(R.id.detail_lapang_price);
+                    price.setText("RP " + lapanganFutsal.getPrice().intValue());
+
+
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<LapanganFutsal> call, Throwable t) {
+
+            }
+        }) ;
+
+
     }
-
 
     public boolean onSupportNavigateUp() {
         finish();

@@ -38,6 +38,8 @@ public class LapanganFutsal implements Serializable {
     @SerializedName("id")
     private String id;
 
+    private String token;
+
     //public static ArrayList<LapanganFutsal> lapangans = new ArrayList<>();
     public String getId() {
         return id;
@@ -110,5 +112,13 @@ public class LapanganFutsal implements Serializable {
 
     public void setFutsal_id(Integer futsal_id) {
         this.futsal_id = futsal_id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

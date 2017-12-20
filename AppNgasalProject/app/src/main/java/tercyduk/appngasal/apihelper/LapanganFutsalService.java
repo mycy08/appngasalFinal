@@ -1,5 +1,6 @@
 package tercyduk.appngasal.apihelper;
 
+import retrofit2.http.Path;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface LapanganFutsalService {
     Call<List<LapanganFutsal>> getSecret(@Header("Authorization") String authToken);
 
     @GET("futsal_field/{id}")
-    Call<LapanganFutsal> find(@Query("id") String id);
+    Call<LapanganFutsal> find(@Header("Authorization") String authToken ,@Path("id") String id);
 
     @POST("create")
     Call<Void> create(@Body LapanganFutsal lapanganFutsal);

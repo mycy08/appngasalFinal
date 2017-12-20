@@ -143,7 +143,7 @@ public class Main2Activity extends AppCompatActivity
         ImageLoader.getInstance().init(config);
         lapang = new ArrayList<>();
         Intent inten = getIntent();
-        String token = inten.getStringExtra("token");
+        final String token = inten.getStringExtra("token");
 
         LapanganFutsalService lapanganFutsalService = APIClient.getClient().create(LapanganFutsalService.class);
 
@@ -170,6 +170,7 @@ public class Main2Activity extends AppCompatActivity
                     lapanganFutsal.setId(id);
                     lapanganFutsal.setFutsal_name(name);
                     lapanganFutsal.setPhoto_url(image);
+                    lapanganFutsal.setToken(token);
                     lapang.add(lapanganFutsal);
 
 
