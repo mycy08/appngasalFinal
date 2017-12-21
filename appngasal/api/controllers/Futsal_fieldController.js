@@ -12,6 +12,7 @@ module.exports = {
                 console.log(err)
             
         }
+      
         res.json(201,futsalField);
         
         });
@@ -43,7 +44,8 @@ module.exports = {
             Futsal_field.destroy(req.param('id'), function futsalFieldDestroyed(err){
                 if(err) return next(err);
             });
-            res.json(202,futsalField);
+            res.redirect("/futsal_field")
+            //res.json(202,futsalField);
         });
     }
 };

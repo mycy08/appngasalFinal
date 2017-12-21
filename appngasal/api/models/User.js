@@ -32,11 +32,6 @@ module.exports = {
       type:'string'
 
     },
-    Address : {
-      type:'string'
-    }
-    ,
-
     photo:{
       type:'string'
 

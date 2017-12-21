@@ -6,8 +6,9 @@
  */
 
 module.exports = {
-
+  
   attributes: {
+     
       futsal_name :{
         type:'string'
       },
@@ -31,9 +32,13 @@ module.exports = {
       },
       districts:{
         type:'string'
-      }
+      },
+      photo_url:{
+        type:'string'
+      },
 
   },
+
   connection:'appngasaldb'
 };
 

@@ -6,8 +6,9 @@
  */
 
 module.exports = {
+    
 	create: function(req, res, next){
-       var email = req.param('email')
+    var email = req.param('email')
        User.create(req.body).exec(function (err, user) {
         if (err) {
           return res.json(err.status, {err: err});
@@ -21,21 +22,35 @@ module.exports = {
         
     },
     edit: function(req, res, next){
-        User.findOne(req.param('id'), function foundUsers(err,user){
-            if(err) return next(err);
-            if(!user) return res.send(404,'User doesn\'t exist.');
-            // res.view({
-            //     user: user
-            // });
-        });
-    },
+        var email = req.param('email')
+        User.findOne({email:email}).exec(function(err,user){
+            if (err) {
+                return res.serverError(err);
+              }
+              if (!user) {
+                return res.notFound('Could not find email, sorry.');
+              }
+            
+              //sails.log('Found "%s"', finn.fullName);
+              return res.json(user);
+            });
+            
+        },
+        // User.findOne(req.param('email'), function foundUsers(err,user){
+        //     if(err) return next(err);
+        //     if(!user) return res.send(404,'User doesn\'t exist.');
+        //      res.view({
+        //         user: user
+        //     });
+        // });
+    
 
     update: function(req, res, next){
-        User.update(req.param('id'),req.params.all(), function userUpdated(err){
+        User.update(req.param('id'),req.params.all(), function userUpdated(err,user){
             if(err){
                 return res.redirect('/user/' + req.param('id'));
             }
-            res.send(200,'User has been successfully changed');
+            res.json(user);
         });
     },
     delete: function(req, res, next){
