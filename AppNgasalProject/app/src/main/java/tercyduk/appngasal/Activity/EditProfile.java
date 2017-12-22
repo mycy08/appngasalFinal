@@ -41,9 +41,8 @@ import tercyduk.appngasal.modules.auth.user.Login;
 import tercyduk.appngasal.modules.auth.user.Register;
 
 public class EditProfile extends AppCompatActivity {
-    EditText etName, etAlamat, etBirth, etNohp;
+    EditText etName, etAlamat, etemail, etNohp;
     String id,name,alamat,no_hp;
-    TextInputLayout tilName, tilAlamat, tilhp, tilBirth;
     TextView txtLogin;
     Button btnUpdate;
     Context mContext;
@@ -107,31 +106,6 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean _isvalid = true;
-//                tilName.setErrorEnabled(false);
-//                tilAlamat.setErrorEnabled(false);
-//                tilhp.setErrorEnabled(false);
-//                tilBirth.setErrorEnabled(false);
-//                if (TextUtils.isEmpty(etName.getText())) {
-//                    _isvalid = false;
-//                    tilName.setErrorEnabled(true);
-//                    tilName.setError("Nama harus diisi");
-//                } else if (etName.getText().length() < 7) {
-//                    _isvalid = false;
-//                    tilName.setErrorEnabled(true);
-//                    tilName.setError("Nama minimal 7 huruf");
-//                } else if (TextUtils.isEmpty((etAlamat.getText()))) {
-//                    _isvalid = false;
-//                    tilhp.setErrorEnabled(true);
-//                    tilhp.setError("Alamat harus diisi");
-//                } else if (TextUtils.isEmpty((etNohp.getText()))) {
-//                    _isvalid = false;
-//                    tilhp.setErrorEnabled(true);
-//                    tilhp.setError("Handphone harus diisi");
-//                } else if (etNohp.getText().length() <= 12) {
-//                    _isvalid = false;
-//                    tilhp.setErrorEnabled(true);
-//                    tilhp.setError("Handphone minimal 12 huruf");
-//                }
                 if(_isvalid)
                 {
                     try {
@@ -139,18 +113,42 @@ public class EditProfile extends AppCompatActivity {
                          name =etName.getText().toString();
                          alamat= etAlamat.getText().toString();
                          no_hp = etNohp.getText().toString();
+//                        user = new User();
+//                        user.setName(name);
+//                        user.setAddress(alamat);
+//                        user.setPhone_number(no_hp);
+
 
                         UserClient userClient= APIClient.getClient().create(UserClient.class);
                         Call call = userClient.update("Bearer "+token,id,name,no_hp,alamat);
+                        Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
+                        inten.putExtra("email",email);
+                        inten.putExtra("name",name);
+
                         call.enqueue(new Callback() {
+
+
                             @Override
                             public void onResponse(Call call, retrofit2.Response response) {
+                                alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
 
                                 Boolean result = (Boolean) response.body();
                                 if (result) {
-                                    Intent intent = new Intent(EditProfile.this, EditProfile.class);
-                                    inten.putExtra("email",email);
-                                    startActivity(intent);
+                                    alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
                                     Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -166,19 +164,20 @@ public class EditProfile extends AppCompatActivity {
                             }
                             @Override
                             public void onFailure(Call call, Throwable t) {
-//                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-//                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        dialogInterface.dismiss();
-//                                    }
-//                                });
-//                                alertDialog = alertDialogBuilder.create();
-//                                alertDialog.show();
+                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
                             }
                         });
 
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
 
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -190,6 +189,7 @@ public class EditProfile extends AppCompatActivity {
         });
 
     }
+
     public boolean onSupportNavigateUp() {
         finish();
         return true;

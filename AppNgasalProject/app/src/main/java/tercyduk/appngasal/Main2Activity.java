@@ -1,8 +1,10 @@
 package tercyduk.appngasal;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -11,9 +13,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,9 +30,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tercyduk.appngasal.Activity.EditProfile;
+import tercyduk.appngasal.Activity.Profil;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.Adapter.AdapterRViewLapangan;
 import tercyduk.appngasal.apihelper.LapanganFutsalService;
+import tercyduk.appngasal.apihelper.UserClient;
 import tercyduk.appngasal.coresmodel.LapanganFutsal;
 import tercyduk.appngasal.coresmodel.User;
 
@@ -37,7 +44,11 @@ public class Main2Activity extends AppCompatActivity
     RecyclerView rv;
     private Context context;
     private User user;
+    TextView txtName;
+    TextView txtEmail;
 
+    AlertDialog alertDialog;
+    AlertDialog.Builder alertDialogBuilder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +83,13 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initData();
         InitRviewlapangan();
     }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -122,11 +135,12 @@ public class Main2Activity extends AppCompatActivity
             Intent intents = getIntent();
             String email = intents.getStringExtra("email");
             String tokent = intents.getStringExtra("token");
-            Intent intent1 = new Intent(Main2Activity.this, EditProfile.class);
+            Intent intent1 = new Intent(Main2Activity.this, Profil.class);
             intent1.putExtra("email",email);
             intent1.putExtra("token",tokent);
             startActivity(intent1);
         } else if (id == R.id.nav_gallery) {
+
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -145,6 +159,8 @@ public class Main2Activity extends AppCompatActivity
 
     private void InitRviewlapangan()
     {
+
+
         rv = (RecyclerView) findViewById(R.id.lapang_rv);
         ImageLoaderConfiguration config=new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -209,5 +225,47 @@ public class Main2Activity extends AppCompatActivity
             }
         });
     }
+    private void initData()
+    {
+        Intent intents = getIntent();
+        String email = intents.getStringExtra("email");
+        String token = intents.getStringExtra("token");
+        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
+        final UserClient userClient= APIClient.getClient().create(UserClient.class);
+        Call<User> call = userClient.find("Bearer "+token, email);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                if(response.body() != null){
+                    User users= response.body();
+//                    String name = users.getName();
+//                    String email = users.getEmail();
+//                    String addres =users.getAddress();
+//                    User _user = new User();
+//                    _user.setName(name);
+//                    _user.setEmail(email);
+//                    _user.setAddress(addres);
+                    txtName = (TextView)findViewById(R.id.nameProfNav);
+                    txtName.setText(users.getName());
+                    txtEmail = (TextView)findViewById(R.id.emailProfNav);
+                    txtEmail.setText(users.getEmail());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+    }
 }

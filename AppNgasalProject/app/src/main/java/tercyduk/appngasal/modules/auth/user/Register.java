@@ -22,8 +22,8 @@ import tercyduk.appngasal.apihelper.LoginService;
 import tercyduk.appngasal.coresmodel.User;
 
 public class Register extends AppCompatActivity {
-    EditText etName, etEmail, etPassword, etRepassword, etNohp;
-    TextInputLayout tilName, tilemail, tilhp, tilpassword, tilrepassword;
+    EditText etName, etEmail, etPassword, etRepassword, etNohp,etAlamat;
+    TextInputLayout tilName, tilemail, tilhp, tilpassword, tilrepassword,tilAlamat;
     TextView txtLogin;
     Button btnRegister;
     Context mContext;
@@ -47,7 +47,9 @@ public class Register extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.name);
         etEmail = (EditText) findViewById(R.id.email);
         etPassword = (EditText) findViewById(R.id.password);
+        etAlamat = (EditText)findViewById(R.id.alamat);
         tilName = (TextInputLayout) findViewById(R.id.register_name_container);
+        tilAlamat = (TextInputLayout)findViewById(R.id.register_alamat_container);
         tilemail = (TextInputLayout) findViewById(R.id.register_name_email);
         tilhp = (TextInputLayout) findViewById(R.id.register_name_hp);
         tilpassword = (TextInputLayout) findViewById(R.id.register_name_pass);
@@ -112,12 +114,20 @@ public class Register extends AppCompatActivity {
                     tilrepassword.setErrorEnabled(true);
                     tilrepassword.setError("Password not match");
 
+                }else if(TextUtils.isEmpty((etAlamat.getText())))
+                {
+                    _isvalid = false;
+                    tilpassword.setErrorEnabled(true);
+                    tilpassword.setError("Alamat is required");
+
                 }
                 if (TextUtils.isEmpty(etEmail.getText().toString()) ||
                         TextUtils.isEmpty(etPassword.getText().toString())||
                         TextUtils.isEmpty((etName.getText().toString()))||
                         TextUtils.isEmpty(etNohp.getText().toString())||
-                        TextUtils.isEmpty(etRepassword.getText().toString())) {
+                        TextUtils.isEmpty(etRepassword.getText().toString())||
+                        TextUtils.isEmpty(etAlamat.getText().toString()))
+                     {
                     alertDialogBuilder.setMessage("Harap isi semua field").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -134,6 +144,7 @@ public class Register extends AppCompatActivity {
                         user.setPassword(etPassword.getText().toString());
                         user.setPhone_number(etNohp.getText().toString());
                         user.setName(etName.getText().toString());
+                        user.setAddress(etAlamat.getText().toString());
                         LoginService loginService = APIClient.getClient().create(LoginService.class);
                         Call call = loginService.create(user);
                         call.enqueue(new Callback() {
