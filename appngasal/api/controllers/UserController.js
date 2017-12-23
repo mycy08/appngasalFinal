@@ -50,7 +50,8 @@ module.exports = {
             if(err){
                 return res.redirect('/user/' + req.param('id'));
             }
-            res.json(user);
+			if(user)
+				res.json(user);
         });
     },
     delete: function(req, res, next){
