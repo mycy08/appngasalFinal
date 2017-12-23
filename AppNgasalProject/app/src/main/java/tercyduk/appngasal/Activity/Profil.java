@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,10 +32,14 @@ import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.UserClient;
 import tercyduk.appngasal.coresmodel.User;
+import tercyduk.appngasal.modules.auth.user.Login;
+import tercyduk.appngasal.modules.auth.user.Register;
 
 public class Profil extends AppCompatActivity implements OnChartValueSelectedListener {
     TextView txtName, txtAlamat, txtEmail, txtNohp;
+    ImageView profil;
     AlertDialog alertDialog;
+    Button btnEdit;
     String id,name,alamat,no_hp;
     AlertDialog.Builder alertDialogBuilder;
     private User user;
@@ -108,7 +114,19 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
         final Intent inten = getIntent();
         final String token = inten.getStringExtra("token");
         final String email = inten.getStringExtra("email");
-        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
+        btnEdit = (Button) findViewById(R.id.btnEdit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profil.this, EditProfile.class);
+                intent.putExtra("token",token);
+                intent.putExtra("email",email);
+                startActivity(intent);
+            }
+        });
+
+
 
         UserClient userClient= APIClient.getClient().create(UserClient.class);
         Call<User> call = userClient.find("Bearer "+token, email);
@@ -118,6 +136,8 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
                 if(response.body() != null){
                     User users= response.body();
                     id = users.getId();
+                    profil =(ImageView) findViewById(R.id.photo_profil);
+                    Picasso.with(getApplicationContext()).load(users.getPhoto()).into(profil);
                     txtNohp = (TextView) findViewById(R.id.edp_txt_hp);
                     txtNohp.setText(users.getPhone_number());
                     txtAlamat = (TextView) findViewById(R.id.edp_txt_alamat);
@@ -144,6 +164,7 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
                 alertDialog.show();
             }
         });
+
 
 
 

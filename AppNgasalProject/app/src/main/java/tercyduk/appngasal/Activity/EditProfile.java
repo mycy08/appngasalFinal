@@ -1,6 +1,7 @@
 package tercyduk.appngasal.Activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -26,10 +28,16 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import tercyduk.appngasal.Main2Activity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
@@ -43,12 +51,14 @@ import tercyduk.appngasal.modules.auth.user.Register;
 public class EditProfile extends AppCompatActivity {
     EditText etName, etAlamat, etemail, etNohp;
     String id,name,alamat,no_hp;
+    ImageView imgEdp;
     TextView txtLogin;
     Button btnUpdate;
     Context mContext;
     AlertDialog alertDialog;
     AlertDialog.Builder alertDialogBuilder;
     private User user;
+    public static final int PICK_IMAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +71,58 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+
+            android.net.Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            android.database.Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            if (cursor == null)
+                return;
+
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            File file = new File(filePath);
+            UserClient userClient= APIClient.getClient().create(UserClient.class);
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+
+//            Log.d("THIS", data.getData().getPath());
+
+            retrofit2.Call<okhttp3.ResponseBody> req = userClient.postImage(body, name);
+            req.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
+    }
+
     private void initComponents() {
         final Intent inten = getIntent();
         final String token = inten.getStringExtra("token");
         final String email = inten.getStringExtra("email");
-        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
         UserClient userClient= APIClient.getClient().create(UserClient.class);
         Call<User> call = userClient.find("Bearer "+token, email);
@@ -75,6 +132,8 @@ public class EditProfile extends AppCompatActivity {
                 if(response.body() != null){
                     User users= response.body();
                     id = users.getId();
+                    imgEdp = (ImageView) findViewById(R.id.edp_photo_profil);
+                    Picasso.with(getApplicationContext()).load(users.getPhoto()).into(imgEdp);
                     etNohp = (EditText) findViewById(R.id.edp_txt_hp);
                     etNohp.setText(users.getPhone_number());
                     etAlamat = (EditText) findViewById(R.id.edp_txt_alamat);
@@ -100,6 +159,20 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        ImageView btn = (ImageView) findViewById(R.id.edp_upload_image_profil);
+        if (btn != null) {
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setType("image/user/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+                }
+            });
+        }
+
+
 
        btnUpdate = (Button) findViewById(R.id.btnCreateAccount);
        btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -119,62 +192,72 @@ public class EditProfile extends AppCompatActivity {
 //                        user.setPhone_number(no_hp);
 
 
+
+
                         UserClient userClient= APIClient.getClient().create(UserClient.class);
+
+
+
+
                         Call call = userClient.update("Bearer "+token,id,name,no_hp,alamat);
-                        Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
-                        inten.putExtra("email",email);
-                        inten.putExtra("name",name);
-
+                        //Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
                         call.enqueue(new Callback() {
-
-
                             @Override
-                            public void onResponse(Call call, retrofit2.Response response) {
-                                alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+                            public void onResponse(Call call, Response response) {
+//                                alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                });
+//                                alertDialog = alertDialogBuilder.create();
+//                                alertDialog.show();
 
-                                Boolean result = (Boolean) response.body();
-                                if (result) {
-                                    alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                                    alertDialog = alertDialogBuilder.create();
-                                    alertDialog.show();
-                                    Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                                    alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                                    alertDialog = alertDialogBuilder.create();
-                                    alertDialog.show();
+
+                                if (response.isSuccessful()) {
+                                    Intent intentToProfil = new Intent(EditProfile.this, Profil.class);
+                                    intentToProfil.putExtra("token", token);
+                                    intentToProfil.putExtra("email", email);
+                                    startActivity(intentToProfil);
+                                    //Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
+
+//                                    //alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialogInterface, int i) {
+//                                            dialogInterface.dismiss();
+//                                        }
+//                                    });
+//                                    alertDialog = alertDialogBuilder.create();
+//                                    alertDialog.show();
+
+                                }else {
+                                    Toast.makeText(getApplicationContext(), "Ga tau", Toast.LENGTH_SHORT).show();
+//                                    alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialogInterface, int i) {
+//                                            dialogInterface.dismiss();
+//                                        }
+//                                    });
+//                                    alertDialog = alertDialogBuilder.create();
+//                                    alertDialog.show();
                                 }
                             }
+
                             @Override
                             public void onFailure(Call call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+//                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                });
+//                                alertDialog = alertDialogBuilder.create();
+//                                alertDialog.show();
                             }
+
                         });
+//
 
                     }
                     catch (Exception e) {

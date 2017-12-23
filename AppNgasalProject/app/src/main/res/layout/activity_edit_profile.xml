@@ -20,23 +20,27 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:padding="10dp">
-            <com.github.siyamed.shapeimageview.CircularImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/profile"
-                app:siBorderWidth="2dp"
-                app:siBorderColor="#fffbbe"/>
+
+                <com.github.siyamed.shapeimageview.CircularImageView
+                    android:id="@+id/edp.photo.profil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/profile"
+                    app:siBorderColor="#fffbbe"
+                    app:siBorderWidth="2dp" />
                 <LinearLayout
                     android:layout_width="30dp"
                     android:layout_marginLeft="80dp"
                     android:layout_marginTop="-30dp"
                     android:layout_height="30dp">
+
                     <com.github.siyamed.shapeimageview.CircularImageView
+                        android:id="@+id/edp.upload.image.profil"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@mipmap/camera"
-                        app:siBorderWidth="2dp"
-                        app:siBorderColor="#fff"/>
+                        app:siBorderColor="#fff"
+                        app:siBorderWidth="2dp" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

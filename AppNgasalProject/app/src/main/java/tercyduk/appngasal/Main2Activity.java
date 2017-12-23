@@ -17,11 +17,13 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     List<LapanganFutsal> lapang;
     RecyclerView rv;
+    ImageView photoPronav;
     private Context context;
     private User user;
     TextView txtName;
@@ -230,7 +233,7 @@ public class Main2Activity extends AppCompatActivity
         Intent intents = getIntent();
         String email = intents.getStringExtra("email");
         String token = intents.getStringExtra("token");
-        Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),token.toString(), Toast.LENGTH_SHORT).show();
 
         final UserClient userClient= APIClient.getClient().create(UserClient.class);
         Call<User> call = userClient.find("Bearer "+token, email);
@@ -246,6 +249,8 @@ public class Main2Activity extends AppCompatActivity
 //                    _user.setName(name);
 //                    _user.setEmail(email);
 //                    _user.setAddress(addres);
+                    //photoPronav = (ImageView) findViewById(R.id.photoProNav);
+                    //Picasso.with(getApplicationContext()).load(users.getPhoto()).into(photoPronav);
                     txtName = (TextView)findViewById(R.id.nameProfNav);
                     txtName.setText(users.getName());
                     txtEmail = (TextView)findViewById(R.id.emailProfNav);
