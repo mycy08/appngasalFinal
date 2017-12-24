@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import tercyduk.appngasal.Main2Activity;
 import tercyduk.appngasal.R;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.UserClient;
@@ -40,7 +41,7 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
     TextView txtName, txtAlamat, txtEmail, txtNohp;
     ImageView profil;
     Button btnEdit;
-    String id,name,alamat,no_hp;
+    String id,names,alamat,no_hp,emails;
     AlertDialog alertDialog;
     AlertDialog.Builder alertDialogBuilder;
     private User user;
@@ -106,13 +107,22 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
 
     }
 
+
     public boolean onSupportNavigateUp() {
+        Intent intc = getIntent();
+        String tokens  =intc.getStringExtra("token");
+        Intent intens = new Intent(Profil.this, Main2Activity.class);
+        intens.putExtra("name",names);
+        intens.putExtra("email",emails);
+        intens.putExtra("token",tokens);
+        startActivity(intens);
         finish();
         return true;
     }
 
 
     private void initComponents() {
+
         final Intent inten = getIntent();
         final String token = inten.getStringExtra("token");
         final String email = inten.getStringExtra("email");
@@ -149,6 +159,8 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
                         profil =(CircularImageView) findViewById(R.id.photo_profil);
                         profil.setImageResource(R.mipmap.profile);
                     }
+                    emails = users.getEmail();
+                    names = users.getName();
                     txtNohp = (TextView) findViewById(R.id.edp_txt_hp);
                     txtNohp.setText(users.getPhone_number());
                     txtAlamat = (TextView) findViewById(R.id.edp_txt_alamat);

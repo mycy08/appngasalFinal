@@ -191,81 +191,68 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean _isvalid = true;
+                if(TextUtils.isEmpty(etName.getText()))
+                {
+                    _isvalid = false;
+                    etName.setError("Name is required");
+                }
+                else if (etName.getText().length() < 7) {
+                    _isvalid = false;
+                    etName.setError("Name minimal 7");
+                }
+                else if(TextUtils.isEmpty(etAlamat.getText()))
+                {
+                    _isvalid = false;
+                    etAlamat.setError("Address is required");
+                }
+                else if(TextUtils.isEmpty(etNohp.getText()))
+                {
+                    _isvalid = false;
+                    etNohp.setError("Handphone is required");
+                }
                 if(_isvalid)
                 {
                     try {
 
-                         name =etName.getText().toString();
+                         name = etName.getText().toString();
                          alamat= etAlamat.getText().toString();
                          no_hp = etNohp.getText().toString();
-//                        user = new User();
-//                        user.setName(name);
-//                        user.setAddress(alamat);
-//                        user.setPhone_number(no_hp);
-
-
-
-
                         UserClient userClient= APIClient.getClient().create(UserClient.class);
-
-
-
-
                         Call call = userClient.update("Bearer "+token,id,name,no_hp,alamat);
-                        //Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
                         call.enqueue(new Callback() {
                             @Override
                             public void onResponse(Call call, Response response) {
-//                                alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        dialogInterface.dismiss();
-//                                    }
-//                                });
-//                                alertDialog = alertDialogBuilder.create();
-//                                alertDialog.show();
-
 
                                 if (response.isSuccessful()) {
                                     Intent intentToProfil = new Intent(EditProfile.this, Profil.class);
                                     intentToProfil.putExtra("token", token);
                                     intentToProfil.putExtra("email", email);
                                     startActivity(intentToProfil);
-                                    //Toast.makeText(getApplicationContext(), "Sukses", Toast.LENGTH_SHORT).show();
-
-//                                    //alertDialogBuilder.setMessage("Profile telah diupdate").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            dialogInterface.dismiss();
-//                                        }
-//                                    });
-//                                    alertDialog = alertDialogBuilder.create();
-//                                    alertDialog.show();
-
+//
                                 }else {
                                     Toast.makeText(getApplicationContext(), "Ga tau", Toast.LENGTH_SHORT).show();
-//                                    alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            dialogInterface.dismiss();
-//                                        }
-//                                    });
-//                                    alertDialog = alertDialogBuilder.create();
-//                                    alertDialog.show();
+                                    alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-//                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        dialogInterface.dismiss();
-//                                    }
-//                                });
-//                                alertDialog = alertDialogBuilder.create();
-//                                alertDialog.show();
+                                alertDialogBuilder.setMessage("Jaringan Sedang Bermasalah").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
                             }
 
                         });
