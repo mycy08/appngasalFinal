@@ -11,4 +11,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="topups">Set your topup here</string>
+    <string name="seewallet">See your wallet</string>
 </resources>

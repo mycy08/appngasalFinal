@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
@@ -33,6 +34,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tercyduk.appngasal.Activity.EditProfile;
 import tercyduk.appngasal.Activity.Profil;
+import tercyduk.appngasal.Activity.TopUp;
+import tercyduk.appngasal.Activity.Wallet;
 import tercyduk.appngasal.apihelper.APIClient;
 import tercyduk.appngasal.apihelper.Adapter.AdapterRViewLapangan;
 import tercyduk.appngasal.apihelper.LapanganFutsalService;
@@ -60,6 +63,7 @@ public class Main2Activity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTitle("Lapangan");
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -133,27 +137,32 @@ public class Main2Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Intent intents = getIntent();
+        String email = intents.getStringExtra("email");
+        String tokent = intents.getStringExtra("token");
         if (id == R.id.profile) {
-            Intent intents = getIntent();
-            String email = intents.getStringExtra("email");
-            String tokent = intents.getStringExtra("token");
+
             Intent intent1 = new Intent(Main2Activity.this, Profil.class);
             intent1.putExtra("email",email);
             intent1.putExtra("token",tokent);
             startActivity(intent1);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.history) {
 
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.wallet) {
+            Intent inteswallet = new Intent(Main2Activity.this, Wallet.class);
+            inteswallet.putExtra("email",email);
+            inteswallet.putExtra("token",tokent);
+            startActivity(inteswallet);
+        } else if (id == R.id.topups) {
+            Intent inte = new Intent(Main2Activity.this, TopUp.class);
+            startActivity(inte);
 
         }
+//        else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -249,8 +258,19 @@ public class Main2Activity extends AppCompatActivity
 //                    _user.setName(name);
 //                    _user.setEmail(email);
 //                    _user.setAddress(addres);
-                    //photoPronav = (ImageView) findViewById(R.id.photoProNav);
-                    //Picasso.with(getApplicationContext()).load(users.getPhoto()).into(photoPronav);
+                    if(users.getPhoto() != null)
+                    {
+                        photoPronav = (CircularImageView) findViewById(R.id.photoProNav);
+                        Picasso.with(getApplicationContext()).load(users.getPhoto()).resize(100,100).into(photoPronav);
+
+
+                    }
+                    else {
+                        photoPronav = (CircularImageView)findViewById(R.id.photoProNav);
+                        photoPronav.setImageResource(R.mipmap.profile);
+
+                    }
+
                     txtName = (TextView)findViewById(R.id.nameProfNav);
                     txtName.setText(users.getName());
                     txtEmail = (TextView)findViewById(R.id.emailProfNav);

@@ -6,26 +6,30 @@
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
+    android:paddingBottom="8dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:paddingRight="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/photoProNav"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:siBorderColor="#ffffff"
+            app:siBorderWidth="2dp"
 
-    <!--<com.github.siyamed.shapeimageview.CircularImageView-->
-        <!--android:id="@+id/photoProNav"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@mipmap/profile"-->
-        <!--app:siBorderColor="#fffbbe"-->
-        <!--app:siBorderWidth="2dp" />-->
+            />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:text="Android Studio"
         android:id="@+id/nameProfNav"
-        android:paddingTop="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView

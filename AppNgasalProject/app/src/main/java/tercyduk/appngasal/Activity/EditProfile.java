@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -67,6 +68,7 @@ public class EditProfile extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         initComponents();
+        setTitle("EditProfile");
 
 
     }
@@ -132,8 +134,18 @@ public class EditProfile extends AppCompatActivity {
                 if(response.body() != null){
                     User users= response.body();
                     id = users.getId();
-                    imgEdp = (ImageView) findViewById(R.id.edp_photo_profil);
-                    Picasso.with(getApplicationContext()).load(users.getPhoto()).into(imgEdp);
+                    if(users.getPhoto() != null)
+                    {
+
+                        imgEdp = (CircularImageView) findViewById(R.id.edp_photo_profil);
+                        Picasso.with(getApplicationContext()).load(users.getPhoto()).into(imgEdp);
+                    }
+                    else
+                    {
+                        imgEdp = (CircularImageView)findViewById(R.id.edp_photo_profil);
+                        imgEdp.setImageResource(R.mipmap.profile);
+                    }
+
                     etNohp = (EditText) findViewById(R.id.edp_txt_hp);
                     etNohp.setText(users.getPhone_number());
                     etAlamat = (EditText) findViewById(R.id.edp_txt_alamat);
@@ -159,7 +171,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        ImageView btn = (ImageView) findViewById(R.id.edp_upload_image_profil);
+        ImageView btn = (CircularImageView) findViewById(R.id.edp_upload_image_profil);
         if (btn != null) {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override

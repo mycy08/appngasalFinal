@@ -22,6 +22,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ import tercyduk.appngasal.modules.auth.user.Register;
 public class Profil extends AppCompatActivity implements OnChartValueSelectedListener {
     TextView txtName, txtAlamat, txtEmail, txtNohp;
     ImageView profil;
-    AlertDialog alertDialog;
     Button btnEdit;
     String id,name,alamat,no_hp;
+    AlertDialog alertDialog;
     AlertDialog.Builder alertDialogBuilder;
     private User user;
     @Override
@@ -49,6 +50,7 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
         setContentView(R.layout.activity_profil);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTitle("Profil");
         initComponents();
         chart();
     }
@@ -136,8 +138,17 @@ public class Profil extends AppCompatActivity implements OnChartValueSelectedLis
                 if(response.body() != null){
                     User users= response.body();
                     id = users.getId();
-                    profil =(ImageView) findViewById(R.id.photo_profil);
-                    Picasso.with(getApplicationContext()).load(users.getPhoto()).into(profil);
+                    if(users.getPhoto() != null)
+                    {
+
+                        profil =(CircularImageView) findViewById(R.id.photo_profil);
+                        Picasso.with(getApplicationContext()).load(users.getPhoto()).into(profil);
+
+                    }
+                    else {
+                        profil =(CircularImageView) findViewById(R.id.photo_profil);
+                        profil.setImageResource(R.mipmap.profile);
+                    }
                     txtNohp = (TextView) findViewById(R.id.edp_txt_hp);
                     txtNohp.setText(users.getPhone_number());
                     txtAlamat = (TextView) findViewById(R.id.edp_txt_alamat);

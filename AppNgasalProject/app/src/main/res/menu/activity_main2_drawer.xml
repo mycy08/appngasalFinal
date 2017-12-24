@@ -2,38 +2,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view"
+
     >
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@mipmap/iconprofile"
+            android:icon="@mipmap/profils"
             android:title="Profile" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@mipmap/iconchart"
-            android:title="Chart" />
+            android:id="@+id/history"
+            android:icon="@mipmap/history"
+            android:title="Histroy" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/topups"
+            android:icon="@mipmap/topups"
+            android:title="Topup" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/wallet"
+            android:icon="@mipmap/wallets"
+            android:title="Wallet" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="Share" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="Send" />-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>
