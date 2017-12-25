@@ -41,7 +41,8 @@
         <activity android:name=".Activity.TopUp" />
         <activity android:name=".Activity.Wallet" />
         <activity android:name=".Activity.Booking" />
-        <activity android:name=".Activity.DetailTopups"></activity>
+        <activity android:name=".Activity.DetailTopups" />
+        <activity android:name=".Activity.KonfirmasiTopup"></activity>
     </application>
 
 </manifest>
