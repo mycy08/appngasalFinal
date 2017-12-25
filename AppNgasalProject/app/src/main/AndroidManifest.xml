@@ -16,7 +16,7 @@
             android:name=".Activity.SplashScreen"
             android:label="AppNgasal"
             android:noHistory="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.auth.user.Register"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -39,7 +39,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.Profil" />
         <activity android:name=".Activity.TopUp" />
-        <activity android:name=".Activity.Wallet"></activity>
+        <activity android:name=".Activity.Wallet" />
+        <activity android:name=".Activity.Booking"></activity>
     </application>
 
 </manifest>

@@ -32,6 +32,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tercyduk.appngasal.Activity.Booking;
 import tercyduk.appngasal.Activity.EditProfile;
 import tercyduk.appngasal.Activity.Profil;
 import tercyduk.appngasal.Activity.TopUp;
@@ -147,7 +148,8 @@ public class Main2Activity extends AppCompatActivity
             intent1.putExtra("token",tokent);
             startActivity(intent1);
         } else if (id == R.id.history) {
-
+            Intent intenshistory = new Intent(Main2Activity.this, Booking.class);
+            startActivity(intenshistory);
         } else if (id == R.id.wallet) {
             Intent inteswallet = new Intent(Main2Activity.this, Wallet.class);
             inteswallet.putExtra("email",email);

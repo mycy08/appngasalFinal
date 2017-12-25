@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/bookinglayout"
+    tools:context="tercyduk.appngasal.Activity.Booking">
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/edTextDate"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:cursorVisible="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:hint="DD-MM-YYYY"
+        android:focusableInTouchMode="false"
+        android:layout_height="wrap_content" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:spinnerMode="dropdown"
+        android:id="@+id/SpinnerJam"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:id="@+id/txttest"/>
+
+</RelativeLayout>
