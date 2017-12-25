@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="tercyduk.appngasal.Activity.DetailTopups">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:id="@+id/cardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:id="@+id/linearLayout2">
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Topup Information"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <View style="@style/Divider"
+                            android:layout_marginTop="10dp"></View>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:text="Nama"
+                            android:textColor="@color/primarytext"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kelvin Angviesta"
+                            android:id="@+id/txtNametop"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:text="Jumlah Topup"
+                            android:textColor="@color/primarytext"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="300000"
+                            android:id="@+id/txtJumlahTop"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:text="Nama Sesuai Bank"
+                            android:textColor="@color/primarytext"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Permata"
+                            android:textSize="12sp"
+                            android:id="@+id/nameUsertop"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="5dp"
+                        android:padding="10dp"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:textColor="@color/primarytext"
+                            android:layout_height="wrap_content"
+                            android:text="Transfer dari Bank"
+                            android:textStyle="bold" />
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Namabank"
+                            android:textSize="12sp"
+                            android:id="@+id/nameBanktop"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:text="Tanggal Transfer"
+                            android:textColor="@color/primarytext"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="DD-MM-YYYY"
+                            android:textSize="12sp"
+
+                            android:id="@+id/edttopups"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <Spinner
+            android:layout_width="match_parent"
+            android:spinnerMode="dropdown"
+            android:id="@+id/spinnerbank"
+            android:layout_height="wrap_content">
+        </Spinner>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout"
+        android:layout_height="wrap_content">
+
+        <TextView
+        android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+            android:focusable="true"
+            android:textAlignment="inherit"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="left"
+        android:id="@+id/txtbank"/>
+    </android.support.v7.widget.CardView>
+    </LinearLayout>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:textColor="#ffffff"
+            style="@style/ButtonOrange"
+            android:text="Konfirmasi Topup" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_confirm"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:textColor="#ffffff"
+            style="@style/ButtonOrange"
+            android:text="Batalkan Topup" />
+    </RelativeLayout>
+</FrameLayout>

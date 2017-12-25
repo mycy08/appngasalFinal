@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/bookinglayout"
     tools:context="tercyduk.appngasal.Activity.Booking">
+
     <EditText
         android:layout_width="match_parent"
         android:id="@+id/edTextDate"

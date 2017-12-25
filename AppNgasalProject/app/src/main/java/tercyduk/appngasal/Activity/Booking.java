@@ -1,13 +1,18 @@
 package tercyduk.appngasal.Activity;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +37,8 @@ public class Booking extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
          txt = (TextView)findViewById(R.id.txttest);
+
+
         //SpinnerJam
         spinnerDialog =(Spinner) findViewById(R.id.SpinnerJam);
         adapater = ArrayAdapter.createFromResource(this,R.array.spinneroption,android.R.layout.simple_spinner_item);

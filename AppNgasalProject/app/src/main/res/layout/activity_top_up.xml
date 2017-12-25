@@ -37,6 +37,7 @@
                 <EditText
                     style="@style/LoginSingup"
                     android:hint="Add your Topups"
+                    android:id="@+id/edttopup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                     <View
@@ -70,9 +71,10 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
+                android:id="@+id/btntoDetail"
                 android:layout_height="wrap_content"
                 android:background="@color/button_orange"
-                android:text="Topup"/>
+                android:text="To Detail Topup"/>
 
         </LinearLayout>
 

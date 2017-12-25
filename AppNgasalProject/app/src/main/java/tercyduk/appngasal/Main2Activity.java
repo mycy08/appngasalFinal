@@ -156,8 +156,10 @@ public class Main2Activity extends AppCompatActivity
             inteswallet.putExtra("token",tokent);
             startActivity(inteswallet);
         } else if (id == R.id.topups) {
-            Intent inte = new Intent(Main2Activity.this, TopUp.class);
-            startActivity(inte);
+            Intent intetopup = new Intent(Main2Activity.this, TopUp.class);
+            intetopup.putExtra("email",email);
+            intetopup.putExtra("token",tokent);
+            startActivity(intetopup);
 
         }
 //        else if (id == R.id.nav_share) {

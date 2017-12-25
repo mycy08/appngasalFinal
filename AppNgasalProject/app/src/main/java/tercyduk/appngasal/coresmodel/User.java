@@ -42,7 +42,7 @@ public class User {
     @SerializedName("address")
     private String address;
 
-
+    private String topupsementaraString;
 
     public String getId() {
         return id;
@@ -132,12 +132,17 @@ public class User {
         this.token = token;
     }
 
-
+    public void setAddress(String address) {
+        this.address= address;
+    }
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setTopupsementaraString(String topupsementaraString) {
+        this.topupsementaraString= topupsementaraString;
+    }
+    public String getTopupsementaraString() {
+        return topupsementaraString;
     }
 }

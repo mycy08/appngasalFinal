@@ -14,9 +14,11 @@
     <string name="topups">Set your topup here</string>
     <string name="seewallet">See your wallet</string>
     <string-array name="spinneroption">
-        <item name = "satujam">1Jam</item>
-        <item name = "duajam">2Jam</item>
-        <item name ="tigajam">3jam</item>
-        <item name ="empatjam">4jam</item>
+        <item name="satujam">1Jam</item>
+        <item name="duajam">2Jam</item>
+        <item name="tigajam">3jam</item>
+        <item name="empatjam">4jam</item>
     </string-array>
+    <string name="spinnerbca">Transaksi Bca Dengan melakukan pembayaran </string>
+
 </resources>

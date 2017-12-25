@@ -50,7 +50,7 @@ import tercyduk.appngasal.modules.auth.user.Login;
 import tercyduk.appngasal.modules.auth.user.Register;
 
 public class EditProfile extends AppCompatActivity {
-    EditText etName, etAlamat, etemail, etNohp;
+    EditText etName,    etAlamat, etemail, etNohp;
     String id,name,alamat,no_hp;
     ImageView imgEdp;
     TextView txtLogin;
@@ -280,6 +280,31 @@ public class EditProfile extends AppCompatActivity {
         Intent _intent = new Intent(context, destination);
         _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(_intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menus, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.homes:
+                final Intent inten = getIntent();
+                final String token = inten.getStringExtra("token");
+                final String email = inten.getStringExtra("email");
+                Intent intentToMainmenu = new Intent(EditProfile.this, Main2Activity.class);
+                intentToMainmenu.putExtra("token", token);
+                intentToMainmenu.putExtra("email", email);
+                startActivity(intentToMainmenu);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
 }
